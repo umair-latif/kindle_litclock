@@ -8,6 +8,27 @@ IMG_DIR="$EXTDIR/images"
 FBINK="/mnt/us/extensions/bin/fbink"
 LOG="$EXTDIR/clock.log"
 
+# Read screen width and height via fbink; fall back to 800x600
+get_screen_size() {
+    local info size
+    info=$("$FBINK" -i 2>/dev/null)
+    size=$(echo "$info" | grep -m1 -o '[0-9]\+x[0-9]\+')
+    WIDTH=$(echo "$size" | cut -d'x' -f1)
+    HEIGHT=$(echo "$size" | cut -d'x' -f2)
+    if [ -z "$WIDTH" ] || [ -z "$HEIGHT" ]; then
+        WIDTH=800
+        HEIGHT=600
+    fi
+}
+
+# Determine screen size once at startup
+get_screen_size
+
+# Calculate placement of the time text
+TIME_X=$((WIDTH - 40))
+TIME_Y=$((HEIGHT / 2))
+TIME_FONT=40
+
 echo "$(date '+%F %T') [INFO] Clock started" >> "$LOG"
 
 get_image_for_time() {
@@ -65,7 +86,7 @@ while true; do
     # Draw rotated time text over image
     TIME=$(printf "%02d:%02d" "$HOUR" "$MIN")
     echo "$(date '+%F %T') [INFO] Displaying time text: $TIME" >> "$LOG"
-    $FBINK -q -m -y 20 -x 400 -S -r cw -s 28 "$TIME"
+    $FBINK -q -m -y "$TIME_Y" -x "$TIME_X" -S -r cw -s "$TIME_FONT" "$TIME"
 
     sleep 60
 done

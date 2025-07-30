@@ -1,6 +1,6 @@
 # Kindle LitClock
 
-This repository contains a very small Kindle extension that displays an Urdu literary clock on Kindle e-ink devices. The clock shows an image with a literary quote for the current time and overlays the digital time text using [`fbink`](https://github.com/NiLuJe/FBInk).
+This repository contains a very small Kindle extension that displays an Urdu literary clock on Kindle e-ink devices. The clock shows an image with a literary quote for the current time and overlays the digital time using [`fbink`](https://github.com/NiLuJe/FBInk). The script now queries `fbink -i` at startup to detect the display resolution, falling back to `800x600` if parsing fails.
 
 ## Repository contents
 
@@ -20,6 +20,10 @@ sh literaryclock.sh
 ```
 
 Stop the clock by terminating the script (for example using `pkill -f literaryclock.sh`).
+
+The script positions the rotated time text near the right edge of the display.
+Its coordinates are calculated from the detected resolution (`X = WIDTH - 40`,
+`Y = HEIGHT / 2`) and it uses a font size of 40 for clarity.
 
 ## Notes
 
