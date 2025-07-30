@@ -43,6 +43,7 @@ get_image_for_time() {
 }
 
 while true; do
+    lipc-set-prop com.lab126.powerd preventScreenSaver 1
     RAW_HOUR=$(date +%H)
     MIN=$(date +%M)
 
