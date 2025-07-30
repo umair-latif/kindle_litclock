@@ -1,0 +1,21 @@
+{
+    "items": [
+        {
+            "name": "Urdu Literary Clock",
+            "items": [
+                 {
+                    "name": "Start Clock",
+                    "priority": 1,
+                    "action": "sh literaryclock.sh",
+                    "exitmenu": true
+                },
+                {
+                    "name": "Stop Clock",
+                    "priority": 2,
+                    "action": "pkill -f literaryclock.sh",
+                    "exitmenu": true
+                }
+            ]
+        }
+    ]
+}
